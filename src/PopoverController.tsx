@@ -1,7 +1,13 @@
-import * as PropTypes from 'prop-types';
-import * as React from 'react';
-import { Dimensions, findNodeHandle, MeasureOnSuccessCallback, NativeModules, View } from 'react-native';
-import { Rect } from './PopoverGeometry';
+import * as PropTypes from "prop-types";
+import * as React from "react";
+import {
+  Dimensions,
+  findNodeHandle,
+  MeasureOnSuccessCallback,
+  NativeModules,
+  View
+} from "react-native";
+import { Rect } from "./PopoverGeometry";
 
 export interface PopoverControllerRenderProps {
   openPopover: () => void;
@@ -22,20 +28,20 @@ export interface State {
 
 export class PopoverController extends React.PureComponent<Props, State> {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: PropTypes.func.isRequired
   };
 
   state: State = {
-    showPopover: false,
-    popoverAnchor: { x: 0, y: 0, width: 0, height: 0 },
+    showPopover: this.props.popoverVisible || false,
+    popoverAnchor: { x: 0, y: 0, width: 0, height: 0 }
   };
 
   componentDidMount() {
-    Dimensions.addEventListener('change', this.onOrientationChange);
+    Dimensions.addEventListener("change", this.onOrientationChange);
   }
 
   componentWillUnmount() {
-    Dimensions.removeEventListener('change', this.onOrientationChange);
+    Dimensions.removeEventListener("change", this.onOrientationChange);
   }
 
   private onOrientationChange = () => {
@@ -58,10 +64,17 @@ export class PopoverController extends React.PureComponent<Props, State> {
     }
   };
 
-  private onTouchableMeasured: MeasureOnSuccessCallback = (x0, y0, width, height, x, y) => {
+  private onTouchableMeasured: MeasureOnSuccessCallback = (
+    x0,
+    y0,
+    width,
+    height,
+    x,
+    y
+  ) => {
     this.setState({
-        showPopover: true,
-        popoverAnchor: { x, y, width, height },
+      showPopover: true,
+      popoverAnchor: { x, y, width, height }
     });
   };
 
@@ -73,7 +86,7 @@ export class PopoverController extends React.PureComponent<Props, State> {
       closePopover: this.closePopover,
       setPopoverAnchor: this.setTouchableRef,
       popoverVisible: this.state.showPopover,
-      popoverAnchorRect: this.state.popoverAnchor,
+      popoverAnchorRect: this.state.popoverAnchor
     });
   }
 }
